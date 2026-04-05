@@ -45,6 +45,11 @@ This project is an AI-based Resume Screening System that analyzes resumes, match
 
 ---
 
+## 📸 Screenshots
+
+![Dashboard](screenshots/dashboard.png)
+![Upload](screenshots/upload.png)
+
 ## 🔮 Future Enhancements
 - Use advanced NLP
 - Improve accuracy using ML models
