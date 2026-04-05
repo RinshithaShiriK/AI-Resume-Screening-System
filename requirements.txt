@@ -1,0 +1,8 @@
+flask
+pymongo
+pandas
+numpy
+scikit-learn
+nltk
+spacy
+pdfminer.six

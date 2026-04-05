@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI Resume Analysis Result</h1>
+
+        <!-- SCORE SECTION -->
+        <div class="result-box">
+            <h3>Resume Match Score</h3>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" data-score="{{ score }}">
+                    {{ score }}%
+                </div>
+            </div>
+        </div>
+
+        <!-- PLACEMENT SECTION -->
+        <div class="result-box">
+            <h3>Placement Prediction</h3>
+            <p class="prediction">{{ placement }}</p>
+        </div>
+
+        <!-- SKILLS SECTION -->
+        <div class="result-box">
+            <h3>Recommended Skills</h3>
+            <ul class="skills">
+                {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- CHART SECTION -->
+        <div class="result-box">
+            <h3>Skill Recommendation Chart</h3>
+            <canvas id="skillChart"></canvas>
+        </div>
+
+        <br>
+
+        <a href="/">
+            <button type="button">Analyze Another Resume</button>
+        </a>
+    </div>
+
+    <script>
+        // Set progress bar width without using Jinja inside style=""
+        const progressBar = document.getElementById("progressBar");
+        const scoreValue = parseFloat(progressBar.dataset.score) || 0;
+        progressBar.style.width = scoreValue + "%";
+
+        // Skill chart data
+const skillData = JSON.parse('{{ skills | tojson | safe }}');
+const skillValues = skillData.map(() => 1);
+
+const ctx = document.getElementById("skillChart").getContext("2d");
+
+new Chart(ctx, {
+    type: "bar",
+    data: {
+        labels: skillData,
+        datasets: [{
+            label: "Recommended Skills",
+            data: skillValues,
+            backgroundColor: "#4facfe"
+        }]
+    }
+});
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: skillData,
+                datasets: [{
+                    label: "Recommended Skills",
+                    data: skillValues,
+                    backgroundColor: "#4facfe"
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
